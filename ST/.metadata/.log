@@ -1,0 +1,33 @@
+!SESSION 2024-10-13 18:21:01.724 -----------------------------------------------
+eclipse.buildId=Version 1.16.1
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-10-13 18:22:07.914
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-10-13 18:22:07.923
+!MESSAGE Log4j2 initialized with config file E:\Sistema\Documenti\MUNER\git\Precharge_Control\ST\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-10-13 18:22:19.587
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2024-10-13 18:29:58.342 -----------------------------------------------
+eclipse.buildId=Version 1.16.1
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-10-13 18:30:05.361
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-10-13 18:30:05.362
+!MESSAGE Log4j2 initialized with config file E:\Sistema\Documenti\MUNER\git\Precharge_Control\ST\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-10-13 18:30:18.905
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-10-13 18:38:58.900
+!MESSAGE Indexed 'USB2CAN' (19 sources, 81 headers) in 4.33 sec: 4,748 declarations; 19,315 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0083%)
