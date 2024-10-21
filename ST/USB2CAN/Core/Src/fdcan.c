@@ -21,7 +21,8 @@
 #include "fdcan.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "usbd_cdc.h"
+extern USBD_HandleTypeDef hUsbDeviceFS;
 /* USER CODE END 0 */
 
 FDCAN_HandleTypeDef hfdcan1;
@@ -100,6 +101,11 @@ void HAL_FDCAN_MspInit(FDCAN_HandleTypeDef* fdcanHandle)
     GPIO_InitStruct.Alternate = GPIO_AF9_FDCAN1;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+    /* FDCAN1 interrupt Init */
+    HAL_NVIC_SetPriority(FDCAN1_IT0_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(FDCAN1_IT0_IRQn);
+    HAL_NVIC_SetPriority(FDCAN1_IT1_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(FDCAN1_IT1_IRQn);
   /* USER CODE BEGIN FDCAN1_MspInit 1 */
 
   /* USER CODE END FDCAN1_MspInit 1 */
@@ -123,6 +129,9 @@ void HAL_FDCAN_MspDeInit(FDCAN_HandleTypeDef* fdcanHandle)
     */
     HAL_GPIO_DeInit(GPIOB, GPIO_PIN_8|GPIO_PIN_9);
 
+    /* FDCAN1 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(FDCAN1_IT0_IRQn);
+    HAL_NVIC_DisableIRQ(FDCAN1_IT1_IRQn);
   /* USER CODE BEGIN FDCAN1_MspDeInit 1 */
 
   /* USER CODE END FDCAN1_MspDeInit 1 */
@@ -130,5 +139,17 @@ void HAL_FDCAN_MspDeInit(FDCAN_HandleTypeDef* fdcanHandle)
 }
 
 /* USER CODE BEGIN 1 */
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan1, uint32_t RxFifo0ITs)
+{
+	FDCAN_RxHeaderTypeDef rxPacketHeader;
+	uint8_t id[4];
+	uint8_t dataLength;
+	uint8_t rxPacket[64];
+	HAL_FDCAN_GetRxMessage(hfdcan1, FDCAN_RX_FIFO0, &rxPacketHeader, rxPacket);
+	USBD_CDC_SetTxBuffer(&hUsbDeviceFS, rxPacket, rxPacketHeader.DataLength);
+	if ( USBD_CDC_TransmitPacket(&hUsbDeviceFS) != USBD_OK ){
+		//todo implementare catch errore
+	}
 
+}
 /* USER CODE END 1 */

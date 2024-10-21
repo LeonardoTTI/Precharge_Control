@@ -190,3 +190,36 @@ java.lang.Exception: The project description file (.project) for 'USB2CAN' is mi
 
 !ENTRY org.eclipse.cdt.core 1 0 2024-10-14 16:15:20.251
 !MESSAGE Indexed 'USB2CAN' (33 sources, 139 headers) in 14.2 sec: 13,470 declarations; 51,032 references; 3 unresolved inclusions; 156 syntax errors; 172 unresolved names (0.27%)
+!SESSION 2024-10-14 17:19:56.284 -----------------------------------------------
+eclipse.buildId=Version 1.16.1
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2024-10-14 17:20:32.568
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-10-14 17:20:58.309
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-10-14 17:20:58.311
+!MESSAGE Log4j2 initialized with config file C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-10-14 17:21:15.037
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2024-10-21 13:54:32.935 -----------------------------------------------
+eclipse.buildId=Version 1.16.1
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-10-21 13:55:41.420
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-10-21 13:55:41.438
+!MESSAGE Log4j2 initialized with config file C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-10-21 13:55:58.032
+!MESSAGE Started RMI Server, listening on port 41337
