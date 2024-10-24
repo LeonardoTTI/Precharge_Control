@@ -142,11 +142,22 @@ void HAL_FDCAN_MspDeInit(FDCAN_HandleTypeDef* fdcanHandle)
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan1, uint32_t RxFifo0ITs)
 {
 	FDCAN_RxHeaderTypeDef rxPacketHeader;
-	uint8_t id[4];
+	uint32_t id;
 	uint8_t dataLength;
 	uint8_t rxPacket[64];
+	uint8_t msg[69];
 	HAL_FDCAN_GetRxMessage(hfdcan1, FDCAN_RX_FIFO0, &rxPacketHeader, rxPacket);
-	USBD_CDC_SetTxBuffer(&hUsbDeviceFS, rxPacket, rxPacketHeader.DataLength);
+	id = rxPacketHeader.Identifier;
+	dataLength = rxPacketHeader.DataLength;
+
+	/*
+	 * @brief memcpy usage from man page
+	 * void *memcpy(void dest[restrict .n], const void src[restrict .n], size_t n);
+	 */
+	memcpy(msg, (unsigned char *) id, sizeof(id));
+	memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+	memcpy(msg+sizeof(id)+sizeof(dataLength), rxPacket, sizeof(rxPacket));
+	USBD_CDC_SetTxBuffer(&hUsbDeviceFS, msg, sizeof(msg));
 	if ( USBD_CDC_TransmitPacket(&hUsbDeviceFS) != USBD_OK ){
 		//todo implementare catch errore
 	}

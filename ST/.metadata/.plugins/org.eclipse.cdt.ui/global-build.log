@@ -171,3 +171,326 @@ Finished building: default.size.stdout
  
 Finished building: USB2CAN.list
  
+21:54:56 **** Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:150:14: error: 'hfdcan' undeclared (first use in this function); did you mean 'hfdcan1'?
+  150 |         id = hfdcan.Identifier;
+      |              ^~~~~~
+      |              hfdcan1
+../Core/Src/fdcan.c:150:14: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/fdcan.c:152:9: error: too few arguments to function 'memcpy'
+  152 |         memcpy(msg, id);
+      |         ^~~~~~
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:10: note: declared here
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |          ^~~~~~
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength);
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+../Core/Src/fdcan.c:153:9: error: too few arguments to function 'memcpy'
+  153 |         memcpy(msg + sizeof(id), dataLength);
+      |         ^~~~~~
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:10: note: declared here
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |          ^~~~~~
+../Core/Src/fdcan.c:154:9: error: too few arguments to function 'memcpy'
+  154 |         memcpy(msg+sizeof(id)+sizeof(dataLength), rxPacket);
+      |         ^~~~~~
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:10: note: declared here
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |          ^~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/fdcan.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+21:56:13 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:150:21: error: 'hfdcan1' is a pointer; did you mean to use '->'?
+  150 |         id = hfdcan1.Identifier;
+      |                     ^
+      |                     ->
+../Core/Src/fdcan.c:151:29: error: 'hfdcan1' is a pointer; did you mean to use '->'?
+  151 |         dataLength = hfdcan1.DataLength;
+      |                             ^
+      |                             ->
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+make: *** [Core/Src/subdir.mk:40: Core/Src/fdcan.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+21:56:34 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:150:21: error: 'FDCAN_HandleTypeDef' has no member named 'Identifier'
+  150 |         id = hfdcan1->Identifier;
+      |                     ^~
+../Core/Src/fdcan.c:151:29: error: 'FDCAN_HandleTypeDef' has no member named 'DataLength'
+  151 |         dataLength = hfdcan1->DataLength;
+      |                             ^~
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+make: *** [Core/Src/subdir.mk:40: Core/Src/fdcan.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+21:57:23 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:150:28: error: invalid type argument of '->' (have 'FDCAN_RxHeaderTypeDef')
+  150 |         id = rxPacketHeader->Identifier;
+      |                            ^~
+../Core/Src/fdcan.c:151:36: error: invalid type argument of '->' (have 'FDCAN_RxHeaderTypeDef')
+  151 |         dataLength = rxPacketHeader->DataLength;
+      |                                    ^~
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+make: *** [Core/Src/subdir.mk:40: Core/Src/fdcan.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+21:57:37 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:150:12: error: assignment to expression with array type
+  150 |         id = rxPacketHeader.Identifier;
+      |            ^
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+make: *** [Core/Src/subdir.mk:40: Core/Src/fdcan.o] Error 1
+"make -j4 all" terminated with exit code 2. Build might be incomplete.
+21:58:05 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:152:21: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  152 |         memcpy(msg, id, sizeof(id));
+      |                     ^~
+      |                     |
+      |                     uint32_t {aka long unsigned int}
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint32_t' {aka 'long unsigned int'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+arm-none-eabi-gcc -o "USB2CAN.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\USB2CAN\STM32G431CBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB2CAN.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: USB2CAN.elf
+ 
+arm-none-eabi-size  USB2CAN.elf 
+arm-none-eabi-objdump -h -S USB2CAN.elf  > "USB2CAN.list"
+   text	   data	    bss	    dec	    hex	filename
+  32528	    388	   6228	  39144	   98e8	USB2CAN.elf
+Finished building: default.size.stdout
+ 
+Finished building: USB2CAN.list
+ 
+21:58:36 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:152:21: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  152 |         memcpy(msg, (uint8_t) id, sizeof(id));
+      |                     ^~~~~~~~~~~~
+      |                     |
+      |                     unsigned char
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'unsigned char'
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+arm-none-eabi-gcc -o "USB2CAN.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\USB2CAN\STM32G431CBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB2CAN.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: USB2CAN.elf
+ 
+arm-none-eabi-size  USB2CAN.elf 
+arm-none-eabi-objdump -h -S USB2CAN.elf  > "USB2CAN.list"
+   text	   data	    bss	    dec	    hex	filename
+  32528	    388	   6228	  39144	   98e8	USB2CAN.elf
+Finished building: default.size.stdout
+ 
+Finished building: USB2CAN.list
+ 
+21:58:55 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:152:21: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  152 |         memcpy(msg, (unsigned char) id, sizeof(id));
+      |                     ^~~~~~~~~~~~~~~~~~
+      |                     |
+      |                     unsigned char
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'unsigned char'
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+arm-none-eabi-gcc -o "USB2CAN.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\USB2CAN\STM32G431CBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB2CAN.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: USB2CAN.elf
+ 
+arm-none-eabi-size  USB2CAN.elf 
+arm-none-eabi-objdump -h -S USB2CAN.elf  > "USB2CAN.list"
+   text	   data	    bss	    dec	    hex	filename
+  32528	    388	   6228	  39144	   98e8	USB2CAN.elf
+Finished building: default.size.stdout
+ 
+Finished building: USB2CAN.list
+ 
+21:59:14 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+arm-none-eabi-gcc -o "USB2CAN.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\USB2CAN\STM32G431CBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB2CAN.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: USB2CAN.elf
+ 
+arm-none-eabi-size  USB2CAN.elf 
+arm-none-eabi-objdump -h -S USB2CAN.elf  > "USB2CAN.list"
+   text	   data	    bss	    dec	    hex	filename
+  32528	    388	   6228	  39144	   98e8	USB2CAN.elf
+Finished building: default.size.stdout
+ 
+Finished building: USB2CAN.list
+ 
+21:59:51 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:153:33: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+  153 |         memcpy(msg + sizeof(id),(unsigned char *) dataLength, sizeof(dataLength));
+      |                                 ^
+arm-none-eabi-gcc -o "USB2CAN.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\USB2CAN\STM32G431CBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB2CAN.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: USB2CAN.elf
+ 
+arm-none-eabi-size  USB2CAN.elf 
+arm-none-eabi-objdump -h -S USB2CAN.elf  > "USB2CAN.list"
+   text	   data	    bss	    dec	    hex	filename
+  32528	    388	   6228	  39144	   98e8	USB2CAN.elf
+Finished building: default.size.stdout
+ 
+Finished building: USB2CAN.list
+ 
+22:00:15 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:153:34: warning: passing argument 2 of 'memcpy' makes pointer from integer without a cast [-Wint-conversion]
+  153 |         memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
+      |                                  ^~~~~~~~~~
+      |                                  |
+      |                                  uint8_t {aka unsigned char}
+In file included from ../USB_Device/Target/usbd_conf.h:32,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:29,
+                 from ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h:29,
+                 from ../Core/Src/fdcan.c:24:
+C:\ST\STM32CubeIDE_1.16.1\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623\tools\bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/include/string.h:31:36: note: expected 'const void * restrict' but argument is of type 'uint8_t' {aka 'unsigned char'}
+   31 | void *   memcpy (void *__restrict, const void *__restrict, size_t);
+      |                                    ^
+arm-none-eabi-gcc -o "USB2CAN.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\USB2CAN\STM32G431CBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB2CAN.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: USB2CAN.elf
+ 
+arm-none-eabi-size  USB2CAN.elf 
+arm-none-eabi-objdump -h -S USB2CAN.elf  > "USB2CAN.list"
+   text	   data	    bss	    dec	    hex	filename
+  32528	    388	   6228	  39144	   98e8	USB2CAN.elf
+Finished building: default.size.stdout
+ 
+Finished building: USB2CAN.list
+ 
