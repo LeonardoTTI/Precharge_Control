@@ -34,8 +34,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-uint32_t rx_len;
-uint8_t USBRX_buffer[69];
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -92,7 +90,6 @@ int main(void)
   MX_FDCAN1_Init();
   MX_USB_Device_Init();
   /* USER CODE BEGIN 2 */
-  CDC_Init_FS();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -100,10 +97,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  rx_len = CDC_Receive_FS(USBRX_buffer, 69);
-	  if(rx_len>0){
-		  //todo implementare invio in CAN bus
-	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
