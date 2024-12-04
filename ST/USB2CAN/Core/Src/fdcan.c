@@ -21,8 +21,12 @@
 #include "fdcan.h"
 
 /* USER CODE BEGIN 0 */
-#include "usbd_cdc.h"
+#include "usbd_cdc_if.h"
 extern USBD_HandleTypeDef hUsbDeviceFS;
+extern FDCAN_TxHeaderTypeDef   TxHeader;
+extern FDCAN_RxHeaderTypeDef   RxHeader;
+extern uint8_t               TxData[64];
+extern uint8_t               RxData[64];
 /* USER CODE END 0 */
 
 FDCAN_HandleTypeDef hfdcan1;
@@ -40,9 +44,9 @@ void MX_FDCAN1_Init(void)
   /* USER CODE END FDCAN1_Init 1 */
   hfdcan1.Instance = FDCAN1;
   hfdcan1.Init.ClockDivider = FDCAN_CLOCK_DIV1;
-  hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
-  hfdcan1.Init.Mode = FDCAN_MODE_NORMAL;
-  hfdcan1.Init.AutoRetransmission = DISABLE;
+  hfdcan1.Init.FrameFormat = FDCAN_FRAME_FD_BRS;
+  hfdcan1.Init.Mode = FDCAN_MODE_EXTERNAL_LOOPBACK;
+  hfdcan1.Init.AutoRetransmission = ENABLE;
   hfdcan1.Init.TransmitPause = DISABLE;
   hfdcan1.Init.ProtocolException = DISABLE;
   hfdcan1.Init.NominalPrescaler = 16;
@@ -53,7 +57,7 @@ void MX_FDCAN1_Init(void)
   hfdcan1.Init.DataSyncJumpWidth = 1;
   hfdcan1.Init.DataTimeSeg1 = 1;
   hfdcan1.Init.DataTimeSeg2 = 1;
-  hfdcan1.Init.StdFiltersNbr = 0;
+  hfdcan1.Init.StdFiltersNbr = 1;
   hfdcan1.Init.ExtFiltersNbr = 0;
   hfdcan1.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
   if (HAL_FDCAN_Init(&hfdcan1) != HAL_OK)
@@ -61,7 +65,17 @@ void MX_FDCAN1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN FDCAN1_Init 2 */
+  FDCAN_FilterTypeDef sFilterConfig;
 
+  sFilterConfig.IdType = FDCAN_STANDARD_ID;
+  sFilterConfig.FilterIndex = 0;
+  sFilterConfig.FilterType = FDCAN_FILTER_MASK;
+  sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+  sFilterConfig.FilterID1 = 0x11;
+  sFilterConfig.FilterID2 = 0x11;
+  if( HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig) != HAL_OK ){
+	  Error_Handler();
+  }
   /* USER CODE END FDCAN1_Init 2 */
 
 }
@@ -104,8 +118,6 @@ void HAL_FDCAN_MspInit(FDCAN_HandleTypeDef* fdcanHandle)
     /* FDCAN1 interrupt Init */
     HAL_NVIC_SetPriority(FDCAN1_IT0_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(FDCAN1_IT0_IRQn);
-    HAL_NVIC_SetPriority(FDCAN1_IT1_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(FDCAN1_IT1_IRQn);
   /* USER CODE BEGIN FDCAN1_MspInit 1 */
 
   /* USER CODE END FDCAN1_MspInit 1 */
@@ -131,7 +143,6 @@ void HAL_FDCAN_MspDeInit(FDCAN_HandleTypeDef* fdcanHandle)
 
     /* FDCAN1 interrupt Deinit */
     HAL_NVIC_DisableIRQ(FDCAN1_IT0_IRQn);
-    HAL_NVIC_DisableIRQ(FDCAN1_IT1_IRQn);
   /* USER CODE BEGIN FDCAN1_MspDeInit 1 */
 
   /* USER CODE END FDCAN1_MspDeInit 1 */
@@ -139,28 +150,60 @@ void HAL_FDCAN_MspDeInit(FDCAN_HandleTypeDef* fdcanHandle)
 }
 
 /* USER CODE BEGIN 1 */
-void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan1, uint32_t RxFifo0ITs)
-{
-	FDCAN_RxHeaderTypeDef rxPacketHeader;
-	uint32_t id;
-	uint8_t dataLength;
-	uint8_t rxPacket[64];
-	uint8_t msg[69];
-	HAL_FDCAN_GetRxMessage(hfdcan1, FDCAN_RX_FIFO0, &rxPacketHeader, rxPacket);
-	id = rxPacketHeader.Identifier;
-	dataLength = rxPacketHeader.DataLength;
+void concatena(uint32_t id, uint32_t dlc, uint8_t data[64], uint8_t *output) {
+    // Array temporaneo per il risultato
+    // La dimensione massima è 4 (id) + 1 (dlc) + dlc (numero di byte in data)
+    uint8_t temp[4 + 1 + 64];
 
-	/*
-	 * @brief memcpy usage from man page
-	 * void *memcpy(void dest[restrict .n], const void src[restrict .n], size_t n);
-	 */
-	memcpy(msg, (unsigned char *) id, sizeof(id));
-	memcpy(msg + sizeof(id), dataLength, sizeof(dataLength));
-	memcpy(msg+sizeof(id)+sizeof(dataLength), rxPacket, sizeof(rxPacket));
-	USBD_CDC_SetTxBuffer(&hUsbDeviceFS, msg, sizeof(msg));
-	if ( USBD_CDC_TransmitPacket(&hUsbDeviceFS) != USBD_OK ){
-		//todo implementare catch errore
-	}
+    // Copia i 4 byte di id nell'array temporaneo
+    temp[0] = (id >> 24) & 0xFF;
+    temp[1] = (id >> 16) & 0xFF;
+    temp[2] = (id >> 8) & 0xFF;
+    temp[3] = id & 0xFF;
 
+    // Prendi l'ultimo byte del dlc (dato che il tipo è uint32_t)
+    uint8_t dlc_byte = dlc & 0xFF;
+    temp[4] = dlc_byte;
+
+    // Copia i primi dlc_byte del data
+    if (dlc_byte > 64) {
+        dlc_byte = 64; // Evita di leggere fuori dall'array data
+    }
+    memcpy(&temp[5], data, dlc_byte);
+
+    // Copia il risultato nell'array di output
+    memcpy(output, temp, 5 + dlc_byte);
 }
+
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
+{
+  if((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != RESET)
+  {
+    /* Retreive Rx messages from RX FIFO0 */
+    if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK)
+    {
+    /* Reception Error */
+    Error_Handler();
+    }
+    uint32_t id;
+    uint32_t dlc;
+    uint8_t msg[69];
+    id = RxHeader.Identifier;
+    dlc = RxHeader.DataLength;
+    concatena(id, dlc, RxData, msg);
+    if ( CDC_Transmit_FS(msg, 69) != USBD_OK ){
+    	//todo implementare catch errore
+    	Error_Handler();
+    }
+    if (HAL_FDCAN_ActivateNotification(hfdcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
+    {
+      /* Notification Error */
+      Error_Handler();
+    }
+  }
+}
+
+
+
+
 /* USER CODE END 1 */

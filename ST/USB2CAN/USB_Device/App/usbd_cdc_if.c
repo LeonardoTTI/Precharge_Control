@@ -22,7 +22,7 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-
+#include "fdcan.h"
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -31,7 +31,8 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+extern FDCAN_TxHeaderTypeDef   TxHeader;
+extern uint8_t               TxData[64];
 /* USER CODE END PV */
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
@@ -62,6 +63,16 @@
   */
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
+void decomponi(const uint8_t *buffer, uint32_t *id, uint32_t *dlc, uint8_t *data) {
+    // Ricostruzione del valore di `id` dai primi 4 byte
+    *id = (buffer[0] << 24) | (buffer[1] << 16) | (buffer[2] << 8) | buffer[3];
+
+    // Ricostruzione del valore di `dlc` dall'ultimo byte dei successivi 4 byte
+    *dlc = buffer[4];
+
+    // Copia i dati corrispondenti al valore di `dlc` nell'array data
+    memcpy(data, &buffer[5], *dlc);
+}
 /* USER CODE END PRIVATE_DEFINES */
 
 /**
@@ -263,7 +274,15 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   /* USER CODE BEGIN 6 */
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
-  CDC_Transmit_FS(Buf,*Len);
+  uint32_t id;
+  uint32_t dlc;
+  decomponi(Buf, &id, &dlc, TxData);
+  TxHeader.Identifier = id;
+  if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData)!= HAL_OK)
+   {
+    Error_Handler();
+   }
+
   return (USBD_OK);
   /* USER CODE END 6 */
 }

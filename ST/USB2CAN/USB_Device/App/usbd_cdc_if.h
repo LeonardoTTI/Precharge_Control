@@ -51,7 +51,7 @@
 #define APP_RX_DATA_SIZE  1024
 #define APP_TX_DATA_SIZE  1024
 /* USER CODE BEGIN EXPORTED_DEFINES */
-
+void decomponi(const uint8_t *buffer, uint32_t *id, uint32_t *dlc, uint8_t *data);
 /* USER CODE END EXPORTED_DEFINES */
 
 /**

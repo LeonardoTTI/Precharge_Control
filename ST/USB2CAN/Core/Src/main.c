@@ -34,7 +34,10 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+FDCAN_TxHeaderTypeDef TxHeader;
+FDCAN_RxHeaderTypeDef RxHeader;
+uint8_t TxData[64];
+uint8_t RxData[64];
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -91,7 +94,21 @@ int main(void)
   MX_FDCAN1_Init();
   MX_USB_Device_Init();
   /* USER CODE BEGIN 2 */
-
+  if(HAL_FDCAN_Start(&hfdcan1) != HAL_OK){
+	  Error_Handler();
+  }
+  if(HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK){
+  	  Error_Handler();
+    }
+  //TxHeader.Identifier = 0x11;
+  TxHeader.IdType = FDCAN_STANDARD_ID;
+  TxHeader.TxFrameType = FDCAN_DATA_FRAME;
+  TxHeader.DataLength = FDCAN_DLC_BYTES_64;
+  TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+  TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
+  TxHeader.FDFormat = FDCAN_FD_CAN;
+  TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
+  TxHeader.MessageMarker = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
