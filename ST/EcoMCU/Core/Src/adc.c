@@ -19,7 +19,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "adc.h"
-#include <stdint.h>
 
 /* USER CODE BEGIN 0 */
 extern uint32_t adc_val1;

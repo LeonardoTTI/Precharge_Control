@@ -23,6 +23,7 @@
 #include "i2c.h"
 #include "icache.h"
 #include "memorymap.h"
+#include "rtc.h"
 #include "tim.h"
 #include "usb_drd_fs.h"
 #include "gpio.h"
@@ -67,13 +68,12 @@ static void SystemPower_Config(void);
  * @brief this function will perform the PreCharge, it will handle the PWM frequency
  * @param none
  */
-void StartPreCharge();
+//void StartPreCharge();
 
 /*
  * @brief this function will handle the convertion
  */
 void ctrlADC();
-void ctrlEEPROM();
 void ctrlCAN();
 /* USER CODE END 0 */
 
@@ -116,9 +116,13 @@ int main(void)
   MX_ADC4_Init();
   MX_I2C1_Init();
   MX_ADC1_Init();
+  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_IT (&hadc1);
   HAL_ADC_Start_IT (&hadc4);
+  if (test_EEPROM() != HAL_OK){
+  	Error_Handler();
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -151,11 +155,13 @@ void SystemClock_Config(void)
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSI
-                              |RCC_OSCILLATORTYPE_HSE;
+                              |RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+  RCC_OscInitStruct.LSIDiv = RCC_LSI_DIV1;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMBOOST = RCC_PLLMBOOST_DIV1;
