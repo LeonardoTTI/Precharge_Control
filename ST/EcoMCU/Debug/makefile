@@ -60,8 +60,8 @@ all: main-build
 main-build: EcoMCU.elf secondary-outputs
 
 # Tool invocations
-EcoMCU.elf EcoMCU.map: $(OBJS) $(USER_OBJS) E:\Sistema\Documenti\MUNER\git\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"E:\Sistema\Documenti\MUNER\git\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+EcoMCU.elf EcoMCU.map: $(OBJS) $(USER_OBJS) C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

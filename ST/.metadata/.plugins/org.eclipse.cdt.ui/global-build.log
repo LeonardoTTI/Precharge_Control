@@ -1,15 +1,184 @@
-12:42:30 **** Incremental Build of configuration Debug for project USB2CAN ****
+20:06:07 **** Incremental Build of configuration Debug for project EcoMCU ****
 make -j4 all 
-arm-none-eabi-gcc "../USB_Device/App/usbd_cdc_if.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"USB_Device/App/usbd_cdc_if.d" -MT"USB_Device/App/usbd_cdc_if.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "USB_Device/App/usbd_cdc_if.o"
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G431xx -c -I../Core/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc -I../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G4xx/Include -I../Drivers/CMSIS/Include -I../USB_Device/App -I../USB_Device/Target -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "USB2CAN.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\USB2CAN\STM32G431CBUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB2CAN.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: USB2CAN.elf
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EcoMCU.elf
  
-arm-none-eabi-size  USB2CAN.elf 
-arm-none-eabi-objdump -h -S USB2CAN.elf  > "USB2CAN.list"
+arm-none-eabi-size  EcoMCU.elf 
+arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
    text	   data	    bss	    dec	    hex	filename
-  32748	    388	   7316	  40452	   9e04	USB2CAN.elf
+  36712	      9	   2908	  39629	   9acd	EcoMCU.elf
 Finished building: default.size.stdout
  
-Finished building: USB2CAN.list
+Finished building: EcoMCU.list
+ 
+20:08:06 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EcoMCU.elf
+ 
+arm-none-eabi-size  EcoMCU.elf 
+arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
+   text	   data	    bss	    dec	    hex	filename
+  36712	      9	   2908	  39629	   9acd	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+Finished building: EcoMCU.list
+ 
+20:09:41 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-size  EcoMCU.elf 
+   text	   data	    bss	    dec	    hex	filename
+  36712	      9	   2908	  39629	   9acd	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+20:11:29 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-size  EcoMCU.elf 
+   text	   data	    bss	    dec	    hex	filename
+  36712	      9	   2908	  39629	   9acd	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+20:13:33 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'test_EEPROM':
+../Core/Src/i2c.c:147:28: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '65535' to '255' [-Woverflow]
+  147 |         uint8_t sentByte = (0xFFFF);// && HAL_GetTick();
+      |                            ^
+../Core/Src/i2c.c:153:31: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '65535' to '255' [-Woverflow]
+  153 |                 sentPage[i] = (0xFFFF);// && HAL_GetTick();
+      |                               ^
+arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EcoMCU.elf
+ 
+arm-none-eabi-size  EcoMCU.elf 
+arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
+   text	   data	    bss	    dec	    hex	filename
+  36684	      9	   2908	  39601	   9ab1	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+Finished building: EcoMCU.list
+ 
+20:14:24 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-size  EcoMCU.elf 
+   text	   data	    bss	    dec	    hex	filename
+  36684	      9	   2908	  39601	   9ab1	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+20:15:18 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EcoMCU.elf
+ 
+arm-none-eabi-size  EcoMCU.elf 
+arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
+   text	   data	    bss	    dec	    hex	filename
+  33428	      9	   2908	  36345	   8df9	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+Finished building: EcoMCU.list
+ 
+20:15:47 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-size  EcoMCU.elf 
+   text	   data	    bss	    dec	    hex	filename
+  33428	      9	   2908	  36345	   8df9	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+20:17:11 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EcoMCU.elf
+ 
+arm-none-eabi-size  EcoMCU.elf 
+arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
+   text	   data	    bss	    dec	    hex	filename
+  33428	      9	   2908	  36345	   8df9	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+Finished building: EcoMCU.list
+ 
+20:27:41 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EcoMCU.elf
+ 
+arm-none-eabi-size  EcoMCU.elf 
+arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
+   text	   data	    bss	    dec	    hex	filename
+  36700	      9	   2908	  39617	   9ac1	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+Finished building: EcoMCU.list
+ 
+20:29:41 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-size  EcoMCU.elf 
+   text	   data	    bss	    dec	    hex	filename
+  36700	      9	   2908	  39617	   9ac1	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+20:34:44 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/gpio.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/gpio.d" -MT"Core/Src/gpio.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/gpio.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EcoMCU.elf
+ 
+arm-none-eabi-size  EcoMCU.elf 
+arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
+   text	   data	    bss	    dec	    hex	filename
+  36676	      9	   2908	  39593	   9aa9	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+Finished building: EcoMCU.list
+ 
+20:36:24 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'test_EEPROM':
+../Core/Src/i2c.c:147:28: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '65535' to '255' [-Woverflow]
+  147 |         uint8_t sentByte = (0xFFFF);// && HAL_GetTick();
+      |                            ^
+../Core/Src/i2c.c:153:31: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '65535' to '255' [-Woverflow]
+  153 |                 sentPage[i] = (0xFFFF);// && HAL_GetTick();
+      |                               ^
+arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EcoMCU.elf
+ 
+arm-none-eabi-size  EcoMCU.elf 
+arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
+   text	   data	    bss	    dec	    hex	filename
+  36676	      9	   2908	  39593	   9aa9	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+Finished building: EcoMCU.list
+ 
+20:38:54 **** Incremental Build of configuration Debug for project EcoMCU ****
+make -j4 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/i2c.c: In function 'test_EEPROM':
+../Core/Src/i2c.c:147:28: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '65535' to '255' [-Woverflow]
+  147 |         uint8_t sentByte = (0xFFFF);// && HAL_GetTick();
+      |                            ^
+../Core/Src/i2c.c:153:31: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '65535' to '255' [-Woverflow]
+  153 |                 sentPage[i] = (0xFFFF);// && HAL_GetTick();
+      |                               ^
+arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: EcoMCU.elf
+ 
+arm-none-eabi-size  EcoMCU.elf 
+arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
+   text	   data	    bss	    dec	    hex	filename
+  36664	      9	   2908	  39581	   9a9d	EcoMCU.elf
+Finished building: default.size.stdout
+ 
+Finished building: EcoMCU.list
  

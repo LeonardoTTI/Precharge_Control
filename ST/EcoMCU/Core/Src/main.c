@@ -118,17 +118,31 @@ int main(void)
   MX_ADC1_Init();
   MX_RTC_Init();
   /* USER CODE BEGIN 2 */
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); //REG4 turned off
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); //REG3 turned on
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
+  /*
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
+
   HAL_ADC_Start_IT (&hadc1);
   HAL_ADC_Start_IT (&hadc4);
+   */
+
   if (test_EEPROM() != HAL_OK){
-  	Error_Handler();
+  	//Error_Handler();
   }
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  HAL_GPIO_TogglePin (GPIOC, GPIO_PIN_13);
+	  HAL_Delay (300);   /* Insert delay 100 ms */
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
