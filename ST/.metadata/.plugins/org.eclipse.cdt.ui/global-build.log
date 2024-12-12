@@ -182,3 +182,31 @@ Finished building: default.size.stdout
  
 Finished building: EcoMCU.list
  
+16:47:59 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-size  USB2CAN.elf 
+   text	   data	    bss	    dec	    hex	filename
+  34008	    388	   7460	  41856	   a380	USB2CAN.elf
+Finished building: default.size.stdout
+ 
+16:52:36 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-size  USB2CAN.elf 
+   text	   data	    bss	    dec	    hex	filename
+  34008	    388	   7460	  41856	   a380	USB2CAN.elf
+Finished building: default.size.stdout
+ 
+16:55:19 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-size  USB2CAN.elf 
+   text	   data	    bss	    dec	    hex	filename
+  34008	    388	   7460	  41856	   a380	USB2CAN.elf
+Finished building: default.size.stdout
+ 
+16:55:48 **** Incremental Build of configuration Debug for project USB2CAN ****
+make -j4 all 
+arm-none-eabi-size  USB2CAN.elf 
+   text	   data	    bss	    dec	    hex	filename
+  34008	    388	   7460	  41856	   a380	USB2CAN.elf
+Finished building: default.size.stdout
+ 

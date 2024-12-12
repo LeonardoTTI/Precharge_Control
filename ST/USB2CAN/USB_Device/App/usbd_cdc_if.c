@@ -274,15 +274,23 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   /* USER CODE BEGIN 6 */
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
+  //CDC_Transmit_FS(Buf, &Len);
   uint32_t id;
   uint32_t dlc;
   decomponi(Buf, &id, &dlc, TxData);
   TxHeader.Identifier = id;
+  TxHeader.DataLength = dlc;
+  TxHeader.TxFrameType = FDCAN_DATA_FRAME;
+  TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+  TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
+  TxHeader.FDFormat = FDCAN_FD_CAN;
+  //TxHeader.TxEventFifoControl =
+  //TxHeader.MessageMarker = 0;
+  TxHeader.IdType = FDCAN_STANDARD_ID;
   if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData)!= HAL_OK)
    {
     Error_Handler();
    }
-
   return (USBD_OK);
   /* USER CODE END 6 */
 }
