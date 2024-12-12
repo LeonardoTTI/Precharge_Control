@@ -191,7 +191,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
     id = RxHeader.Identifier;
     dlc = RxHeader.DataLength;
     concatena(id, dlc, RxData, msg);
-    if ( CDC_Transmit_FS(msg, 69) != USBD_OK ){
+    if ( CDC_Transmit_FS(msg, 5+dlc) != USBD_OK ){
     	//todo implementare catch errore
     	Error_Handler();
     }

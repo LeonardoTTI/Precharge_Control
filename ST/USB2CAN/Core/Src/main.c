@@ -20,6 +20,7 @@
 #include "main.h"
 #include "fdcan.h"
 #include "usb_device.h"
+#include "usbd_cdc_if.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -38,6 +39,7 @@ FDCAN_TxHeaderTypeDef TxHeader;
 FDCAN_RxHeaderTypeDef RxHeader;
 uint8_t TxData[64];
 uint8_t RxData[64];
+uint8_t output[69];
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -79,7 +81,12 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  uint32_t id =0x0000020A;
+  uint8_t dlc = 60;
+  for( int i = 0; i<60; i++){
+	  TxData[i] = 0x55;
+  }
+  concatena(id, dlc, TxData, output);
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -117,6 +124,11 @@ int main(void)
   {
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
+
+
+
+	  //CDC_Transmit_FS(output, 69);
+	  HAL_Delay(50);
   }
   /* USER CODE END 3 */
 }

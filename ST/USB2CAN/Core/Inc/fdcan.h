@@ -35,7 +35,7 @@ extern "C" {
 extern FDCAN_HandleTypeDef hfdcan1;
 
 /* USER CODE BEGIN Private defines */
-
+void concatena(uint32_t id, uint32_t dlc, uint8_t data[64], uint8_t *output);
 /* USER CODE END Private defines */
 
 void MX_FDCAN1_Init(void);
