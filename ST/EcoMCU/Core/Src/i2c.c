@@ -144,13 +144,13 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
 /* USER CODE BEGIN 1 */
 HAL_StatusTypeDef test_EEPROM(){
 	HAL_StatusTypeDef testRes[8];
-	uint8_t sentByte = (0xFFFF);// && HAL_GetTick();
+	uint8_t sentByte = (0xFF);// && HAL_GetTick();
 	uint8_t recivedByte;
 	uint8_t sentPage[EEPROM_PAGE_SIZE];
 	uint8_t recivedPage[EEPROM_PAGE_SIZE];
 
 	for( uint8_t i = 0; i < EEPROM_PAGE_SIZE; i++){
-		sentPage[i] = (0xFFFF);// && HAL_GetTick();
+		sentPage[i] = (0xFF) && HAL_GetTick();
 	}
 
 	//Check if the EEPROM is ready to communicate

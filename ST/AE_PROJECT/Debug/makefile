@@ -60,8 +60,8 @@ all: main-build
 main-build: AE_PROJECT.elf secondary-outputs
 
 # Tool invocations
-AE_PROJECT.elf AE_PROJECT.map: $(OBJS) $(USER_OBJS) C:\Users\mario\STM32CubeIDE\workspace_1.16.1\AE_PROJECT\STM32U535CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "AE_PROJECT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"C:\Users\mario\STM32CubeIDE\workspace_1.16.1\AE_PROJECT\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="AE_PROJECT.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+AE_PROJECT.elf AE_PROJECT.map: $(OBJS) $(USER_OBJS) E:\Sistema\Documenti\MUNER\git\Precharge_Control\ST\AE_PROJECT\STM32U535CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "AE_PROJECT.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m33 -T"E:\Sistema\Documenti\MUNER\git\Precharge_Control\ST\AE_PROJECT\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="AE_PROJECT.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

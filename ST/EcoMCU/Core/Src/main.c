@@ -50,29 +50,39 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint32_t adc_val1;
-uint32_t adc_val4;
+
+uint16_t adcData1[16];
+float adcV1[16];
+
+uint16_t adcDataRegister1 = 0;
+uint16_t adcDataRegister4 = 0;
+
+float adcVoltage1 = 0;
+float adcVoltage4 = 0;
+
+float coil1current1 = 0;
+float coil1current4 = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
+__FORCE_INLINE void HW_RELAY_REG_ON(void);
+__FORCE_INLINE void HW_RELAY_REG_OFF(void);
+
+__FORCE_INLINE void HW_SENSORS_REG_ON(void);
+__FORCE_INLINE void HW_SENSORS_REG_OFF(void);
+
+__FORCE_INLINE void HW_MUX_CH_SET(uint8_t chNumber);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-/*
- * @brief this function will perform the PreCharge, it will handle the PWM frequency
- * @param none
- */
-//void StartPreCharge();
 
-/*
- * @brief this function will handle the convertion
- */
-void ctrlADC();
-void ctrlCAN();
+
 /* USER CODE END 0 */
 
 /**
@@ -113,18 +123,22 @@ int main(void)
   MX_RTC_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); //REG4 turned off
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); //REG3 turned on
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, GPIO_PIN_SET);
-  /*
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 
-  HAL_ADC_Start_IT (&hadc1);
-  HAL_ADC_Start_IT (&hadc4);
-   */
+  HAL_PWREx_EnableVddA();
+
+  HW_SENSORS_REG_ON();
+  HW_RELAY_REG_ON();
+
+  HAL_TIM_PWM_Start(&htim2,  TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2,  TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim2,  TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim2,  TIM_CHANNEL_4);
+
+  HAL_TIM_Base_Start_IT(&htim7);
+
+  HW_MUX_CH_SET(0);
+
+  HAL_ADC_Start_IT(&hadc1);
 
   if (test_EEPROM() != HAL_OK){
   	//Error_Handler();
@@ -136,11 +150,43 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_GPIO_TogglePin (GPIOC, GPIO_PIN_13);
-	  HAL_Delay (300);   /* Insert delay 100 ms */
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  static uint32_t millisLedBlink = 0;
+	  if(millis >= millisLedBlink + 100)
+	  {
+		  millisLedBlink = millis;
+		  HAL_GPIO_TogglePin(USER_LED_GPIO_Port, USER_LED_Pin);
+
+
+		  HAL_ADC_Start_IT(&hadc1);
+
+		  static uint8_t toggle = 0;
+		  static uint16_t pippoCounter = 0;
+
+		  if(pippoCounter < 1)
+			  pippoCounter = 100;
+		  else
+			  pippoCounter-=1;
+
+		  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pippoCounter);
+		  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, pippoCounter);
+		  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, pippoCounter);
+		  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, pippoCounter);
+
+		  if(toggle == 0)
+		  {
+			  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 800);
+			  toggle = 1;
+		  }
+		  else
+		  {
+			  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
+			  toggle = 0;
+		  }
+	  }
+
   }
   /* USER CODE END 3 */
 }
@@ -203,6 +249,132 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+/**
+  * @brief  This function is used to turn ON the REG4 which powers the RELAYS.
+  * @retval None
+  */
+__FORCE_INLINE void HW_RELAY_REG_ON(void)
+{
+	HAL_GPIO_WritePin(RELAY_EN_GPIO_Port, RELAY_EN_Pin, 1);
+}
+
+/**
+  * @brief  This function is used to turn OFF the REG4 which powers the RELAYS.
+  * @retval None
+  */
+__FORCE_INLINE void HW_RELAY_REG_OFF(void)
+{
+	HAL_GPIO_WritePin(RELAY_EN_GPIO_Port, RELAY_EN_Pin, 0);
+}
+
+
+/**
+  * @brief  This function is used to turn ON the REG3 which powers the ANALOG SENSORS.
+  * @retval None
+  */
+__FORCE_INLINE void HW_SENSORS_REG_ON(void)
+{
+	HAL_GPIO_WritePin(SENS_EN_GPIO_Port, SENS_EN_Pin, 1);
+}
+
+/**
+  * @brief  This function is used to turn OFF the REG3 which powers the ANALOG SENSORS.
+  * @retval None
+  */
+__FORCE_INLINE void HW_SENSORS_REG_OFF(void)
+{
+	HAL_GPIO_WritePin(SENS_EN_GPIO_Port, SENS_EN_Pin, 0);
+}
+
+
+/**
+  * @brief  This function is used to SELECT the channel connected to the ANALOG MUX.
+  * @retval None
+  */
+__FORCE_INLINE void HW_MUX_CH_SET(uint8_t chNumber)
+{
+	if(chNumber > 7)
+		chNumber = 7;
+
+	HAL_GPIO_WritePin(RY_A_S0_GPIO_Port, RY_A_S0_Pin, readBit(chNumber, 0));
+	HAL_GPIO_WritePin(RY_A_S1_GPIO_Port, RY_A_S1_Pin, readBit(chNumber, 1));
+	HAL_GPIO_WritePin(RY_A_S2_GPIO_Port, RY_A_S2_Pin, readBit(chNumber, 2));
+}
+
+
+
+
+/**
+  * @brief  Period elapsed callback in non-blocking mode
+  * @param  htim TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance == TIM7)
+	{
+		HAL_ADC_Start_IT(&hadc1);
+	}
+}
+
+
+
+static uint8_t channelCounter = 0;
+
+/**
+  * @brief  Conversion complete callback in non-blocking mode.
+  * @param hadc ADC handle
+  * @retval None
+  */
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+{
+	if(hadc->Instance == ADC1)
+	{
+		static uint8_t initFlag = 0;
+
+		static ADC_ChannelConfTypeDef sConfig = {0};
+
+		if(initFlag == 0)
+		{
+			sConfig.Channel = ADC_CHANNEL_9;
+			sConfig.Rank = ADC_REGULAR_RANK_1;
+			sConfig.SamplingTime = ADC_SAMPLETIME_5CYCLES;
+			sConfig.SingleDiff = ADC_SINGLE_ENDED;
+			sConfig.OffsetNumber = ADC_OFFSET_NONE;
+			sConfig.Offset = 0;
+
+			initFlag = 1;
+		}
+
+		//static uint8_t channelCounter = 0;
+
+
+		adcData1[channelCounter] = HAL_ADC_GetValue(&hadc1);
+		adcV1[channelCounter] = map(adcData1[channelCounter], 0, 16383, 0, 3.291);
+
+
+		/* Configure MCU ADC Channel BEGIN */
+
+		if(sConfig.Channel == ADC_CHANNEL_9)
+			sConfig.Channel = ADC_CHANNEL_12;
+		else
+			sConfig.Channel = ADC_CHANNEL_9;
+
+		HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+
+		/* Configure MCU ADC Channel END */
+
+
+		if(channelCounter >= 15)
+			channelCounter = 0;
+		else
+			channelCounter++;
+
+		HW_MUX_CH_SET((channelCounter/2));
+	}
+
+}
 
 /* USER CODE END 4 */
 

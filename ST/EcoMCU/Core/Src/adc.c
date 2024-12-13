@@ -21,8 +21,7 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
-extern uint32_t adc_val1;
-extern uint32_t adc_val4;
+
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -263,13 +262,5 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 }
 
 /* USER CODE BEGIN 1 */
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc){
-	if(&hadc->Instance==&hadc1.Instance){
-		adc_val1 = HAL_ADC_GetValue(&hadc1);
-	}
-	if(&hadc->Instance==&hadc4.Instance){
-		adc_val4 = HAL_ADC_GetValue(&hadc4);
-	}
 
-}
 /* USER CODE END 1 */

@@ -86,6 +86,41 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN Private defines */
 
+/*
+ * @brief this function will perform the PreCharge, it will handle the PWM frequency
+ * @param none
+ */
+void StartPreCharge();
+
+/* GENERAL DEFINE BEGIN */
+#define __FORCE_INLINE 			__attribute__((always_inline)) inline
+
+#define millis 		uwTick
+/* GENERAL DEFINE END */
+
+
+
+/* MATH FUNCTIONS BEGIN */
+#define min(x, y) 				(((x) < (y)) ? (x) : (y))
+#define max(x, y) 				(((x) > (y)) ? (x) : (y))
+#define abs(x)					(((x) > (0)) ? (x) : ((x) *= (-1))))
+
+#define square(x)				((x) * (x))
+
+#define map(x, inMin, inMax, outMin, outMax)		( ((x) - (inMin)) * ((outMax) - (outMin)) / ((inMax) - (inMin)) + (outMin) )
+/* MATH FUNCTIONS END */
+
+
+
+/* BIT OPERATION FUNCTIONS BEGIN */
+#define readBit(data, y) 			(((data)>>(y)) & 1)      	/* Return Data.Y value  */
+#define setBit(data, y)    			((data) |= (1 << (y)))    	/* Set Data.Y   to 1    */
+#define clearBit(data, y)  			((data) &= ~(1 << (y)))   	/* Clear Data.Y to 0    */
+#define toggleBit(data, y)  	   	((data) ^=readBit((y)))     /* Toggle Data.Y  value  */
+#define toggleData(data)   			((data) =~(data))         	/* Toggle Data value     */
+/* BIT OPERATION FUNCTIONS END */
+
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

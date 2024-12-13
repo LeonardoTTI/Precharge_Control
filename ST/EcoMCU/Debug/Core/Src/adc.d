@@ -32,9 +32,6 @@ Core/Src/adc.o: ../Core/Src/adc.c ../Core/Inc/adc.h ../Core/Inc/main.h \
  ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_rtc_ex.h \
  ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_tim.h \
  ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_tim_ex.h \
- ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_pcd.h \
- ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_ll_usb.h \
- ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_pcd_ex.h \
  ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_exti.h \
  ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_fdcan.h
 ../Core/Inc/adc.h:
@@ -72,8 +69,5 @@ Core/Src/adc.o: ../Core/Src/adc.c ../Core/Inc/adc.h ../Core/Inc/main.h \
 ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_rtc_ex.h:
 ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_tim.h:
 ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_tim_ex.h:
-../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_pcd.h:
-../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_ll_usb.h:
-../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_pcd_ex.h:
 ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_exti.h:
 ../Drivers/STM32U5xx_HAL_Driver/Inc/stm32u5xx_hal_fdcan.h:

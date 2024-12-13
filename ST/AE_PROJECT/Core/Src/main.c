@@ -122,7 +122,7 @@ int main(void)
   HAL_PWREx_EnableVddA();
 
   HW_SENSORS_REG_ON();
-  //HW_RELAY_REG_ON();
+  HW_RELAY_REG_ON();
 
   HAL_TIM_PWM_Start(&htim2,  TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim2,  TIM_CHANNEL_2);
