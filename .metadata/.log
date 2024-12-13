@@ -407,3 +407,21 @@ java.io.FileNotFoundException: C:\Users\leona\Documents\UBM\GitLab\Precharge_Con
 
 !ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2024-12-13 21:30:38.351
 !MESSAGE Existing sessions are:
+!SESSION 2024-12-13 22:04:27.826 -----------------------------------------------
+eclipse.buildId=Version 1.16.1
+java.version=17.0.11
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=it_IT
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-12-13 22:04:42.520
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-12-13 22:04:42.522
+!MESSAGE Log4j2 initialized with config file C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-12-13 22:05:00.830
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-12-13 22:05:46.581
+!MESSAGE Indexed 'AE_PROJECT' (33 sources, 134 headers) in 15.2 sec: 18,148 declarations; 109,888 references; 1 unresolved inclusions; 120 syntax errors; 247 unresolved names (0.19%)

@@ -57,6 +57,32 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define USER_LED_Pin GPIO_PIN_13
+#define USER_LED_GPIO_Port GPIOC
+#define RY_A_S0_Pin GPIO_PIN_1
+#define RY_A_S0_GPIO_Port GPIOB
+#define RY_A_S1_Pin GPIO_PIN_2
+#define RY_A_S1_GPIO_Port GPIOB
+#define RY_A_S2_Pin GPIO_PIN_10
+#define RY_A_S2_GPIO_Port GPIOB
+#define CAN_ERR_Pin GPIO_PIN_12
+#define CAN_ERR_GPIO_Port GPIOB
+#define CAN_WAKE_Pin GPIO_PIN_13
+#define CAN_WAKE_GPIO_Port GPIOB
+#define CAN_STB_Pin GPIO_PIN_14
+#define CAN_STB_GPIO_Port GPIOB
+#define CAN_EN_Pin GPIO_PIN_15
+#define CAN_EN_GPIO_Port GPIOB
+#define RELAY_EN_Pin GPIO_PIN_8
+#define RELAY_EN_GPIO_Port GPIOA
+#define SENS_EN_Pin GPIO_PIN_9
+#define SENS_EN_GPIO_Port GPIOA
+#define MEM_WC_Pin GPIO_PIN_3
+#define MEM_WC_GPIO_Port GPIOB
+#define E_ALERT_Pin GPIO_PIN_4
+#define E_ALERT_GPIO_Port GPIOB
+#define E_RESET_Pin GPIO_PIN_5
+#define E_RESET_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

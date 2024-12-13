@@ -25,7 +25,6 @@
 #include "memorymap.h"
 #include "rtc.h"
 #include "tim.h"
-#include "usb_drd_fs.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -57,7 +56,6 @@ uint32_t adc_val4;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void SystemPower_Config(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -100,9 +98,6 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-  /* Configure the System Power */
-  SystemPower_Config();
-
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -112,11 +107,11 @@ int main(void)
   MX_FDCAN1_Init();
   MX_ICACHE_Init();
   MX_TIM2_Init();
-  MX_USB_DRD_FS_PCD_Init();
   MX_ADC4_Init();
   MX_I2C1_Init();
   MX_ADC1_Init();
   MX_RTC_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, GPIO_PIN_RESET); //REG4 turned off
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_RESET); //REG3 turned on
@@ -168,11 +163,10 @@ void SystemClock_Config(void)
 
   /** Initializes the CPU, AHB and APB buses clocks
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48|RCC_OSCILLATORTYPE_HSI
-                              |RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI
+                              |RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.LSIDiv = RCC_LSI_DIV1;
@@ -206,29 +200,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-}
-
-/**
-  * @brief Power Configuration
-  * @retval None
-  */
-static void SystemPower_Config(void)
-{
-  PWR_PVDTypeDef sConfigPVD = {0};
-
-  /*
-   * PVD Configuration
-   */
-  sConfigPVD.PVDLevel = PWR_PVDLEVEL_0;
-  sConfigPVD.Mode = PWR_PVD_MODE_NORMAL;
-  HAL_PWR_ConfigPVD(&sConfigPVD);
-
-  /*
-   * Enable the PVD Output
-   */
-  HAL_PWR_EnablePVD();
-/* USER CODE BEGIN PWR */
-/* USER CODE END PWR */
 }
 
 /* USER CODE BEGIN 4 */
