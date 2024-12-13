@@ -23,6 +23,7 @@
 
 /* USER CODE BEGIN INCLUDE */
 #include "fdcan.h"
+#include <math.h>
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -72,6 +73,20 @@ void decomponi(const uint8_t *buffer, uint32_t *id, uint32_t *dlc, uint8_t *data
 
     // Copia i dati corrispondenti al valore di `dlc` nell'array data
     memcpy(data, &buffer[5], *dlc);
+}
+
+void fill_output_buffer(const uint16_t voltages[20], const uint16_t currents[20], uint8_t output[60]) {
+    // Inserisci i valori del buffer "voltages" nei primi 30 byte di "output"
+    for (int i = 0; i < 10; i++) {
+        output[i * 3] = (voltages[i] >> 4) & 0xFF;        // Byte alto (8 MSB)
+        output[i * 3 + 1] = ((voltages[i] & 0xF) << 4);   // 4 LSB (shiftati a sinistra di 4 bit)
+    }
+
+    // Inserisci i valori del buffer "currents" nei successivi 30 byte di "output"
+    for (int i = 0; i < 10; i++) {
+        output[30 + i * 3] = (currents[i] >> 4) & 0xFF;   // Byte alto (8 MSB)
+        output[30 + i * 3 + 1] = ((currents[i] & 0xF) << 4); // 4 LSB (shiftati a sinistra di 4 bit)
+    }
 }
 /* USER CODE END PRIVATE_DEFINES */
 
@@ -139,7 +154,28 @@ static int8_t CDC_Receive_FS(uint8_t* pbuf, uint32_t *Len);
 static int8_t CDC_TransmitCplt_FS(uint8_t *pbuf, uint32_t *Len, uint8_t epnum);
 
 /* USER CODE BEGIN PRIVATE_FUNCTIONS_DECLARATION */
+void dummyCOM(uint32_t *id){
+	uint8_t  TxBuffer[69];
 
+	if( *id == 0x000002AA){
+			uint8_t data[64] = {0};
+			uint16_t voltages[20];
+			uint16_t currents[20];
+		    double tau = 5.0; // Costante di tempo
+		    double dt = 0.5;  // Intervallo temporale
+		    double Vmax = 4095; // Valore massimo a 12 bit
+
+		    for (int i = 0; i < 20; i++) {
+		        double t = i * dt;
+		        voltages[i] = (uint16_t)(Vmax * (1 - exp(-t / tau)));
+		        currents[i] = (uint16_t)(Vmax * exp(-t / tau));
+		    }
+			fill_output_buffer(voltages, currents, data);
+			uint32_t newid = 0x0000020A;
+			concatena(newid, 60, data, TxBuffer);
+			CDC_Transmit_FS(TxBuffer, 65);
+	}
+}
 /* USER CODE END PRIVATE_FUNCTIONS_DECLARATION */
 
 /**
@@ -278,6 +314,10 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   uint32_t id;
   uint32_t dlc;
   decomponi(Buf, &id, &dlc, TxData);
+  if(dummy_mode){
+	  dummyCOM(&id);
+	  // break; //only dummy mode
+  }
   TxHeader.Identifier = id;
   TxHeader.DataLength = dlc;
   TxHeader.TxFrameType = FDCAN_DATA_FRAME;

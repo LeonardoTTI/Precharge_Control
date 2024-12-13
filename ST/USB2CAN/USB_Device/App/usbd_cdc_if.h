@@ -51,7 +51,19 @@
 #define APP_RX_DATA_SIZE  1024
 #define APP_TX_DATA_SIZE  1024
 /* USER CODE BEGIN EXPORTED_DEFINES */
+
+ /*
+  * @brief this function take a buffer of uint8_t called buffer and extract the id, dlc and data filed from the buffer.
+  * id are the first 4 bytes of the buffer
+  * dlc is the fifth byte of the buffer
+  * data is filled with a number of byte from the buffer equal to the dlc
+  */
 void decomponi(const uint8_t *buffer, uint32_t *id, uint32_t *dlc, uint8_t *data);
+
+/*
+ * @brief this function create a dummy replay to a vcom message recived on the serial line
+ */
+void dummyCOM(uint32_t *id);
 /* USER CODE END EXPORTED_DEFINES */
 
 /**
