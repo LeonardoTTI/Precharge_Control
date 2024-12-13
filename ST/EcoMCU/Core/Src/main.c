@@ -63,6 +63,11 @@ float adcVoltage4 = 0;
 float coil1current1 = 0;
 float coil1current4 = 0;
 
+//FDCAN_TxHeaderTypeDef   TxHeader;
+//FDCAN_RxHeaderTypeDef   RxHeader;
+//uint8_t               TxData[64];
+//uint8_t               RxData[64];
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

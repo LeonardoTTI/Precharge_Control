@@ -36,6 +36,10 @@ extern FDCAN_HandleTypeDef hfdcan1;
 
 /* USER CODE BEGIN Private defines */
 
+void FDCAN_CreateHeader(uint32_t* id, uint32_t* dlc, FDCAN_TxHeaderTypeDef* Header);
+
+void FDCAN_SendFrame();
+
 /* USER CODE END Private defines */
 
 void MX_FDCAN1_Init(void);

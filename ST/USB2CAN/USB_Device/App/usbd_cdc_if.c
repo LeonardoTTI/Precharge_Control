@@ -324,7 +324,7 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
   TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
   TxHeader.FDFormat = FDCAN_FD_CAN;
-  //TxHeader.TxEventFifoControl =
+  //TxHeader.TxEventFifoControl
   //TxHeader.MessageMarker = 0;
   TxHeader.IdType = FDCAN_STANDARD_ID;
   if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData)!= HAL_OK)

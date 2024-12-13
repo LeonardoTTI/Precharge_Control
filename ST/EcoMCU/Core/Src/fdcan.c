@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "fdcan.h"
-
+#include "candb.h"
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
@@ -131,4 +131,56 @@ void HAL_FDCAN_MspDeInit(FDCAN_HandleTypeDef* fdcanHandle)
 
 /* USER CODE BEGIN 1 */
 
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
+{
+
+	  FDCAN_RxHeaderTypeDef   RxHeader;
+	  uint8_t               RxData[64];
+	  if((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != RESET)
+	  {
+		/* Retreive Rx messages from RX FIFO0 */
+		if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK)
+		{
+			/* Reception Error */
+			Error_Handler();
+		}
+		uint32_t id;
+		id = RxHeader.Identifier;
+		switch(id) {
+			case 0x000002AA:
+				break;
+			case 0x000003AA:
+				break;
+			default:
+		}
+		if (HAL_FDCAN_ActivateNotification(hfdcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
+		{
+		  /* Notification Error */
+		  Error_Handler();
+		}
+	  }
+}
+
+void FDCAN_CreateHeader(uint32_t* id, uint32_t* dlc, FDCAN_TxHeaderTypeDef* Header)
+{
+	Header->Identifier = *id;
+	Header->DataLength = *dlc;
+	Header->TxFrameType = FDCAN_DATA_FRAME;
+	Header->ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+	Header->BitRateSwitch = FDCAN_BRS_OFF;
+	Header->FDFormat = FDCAN_FD_CAN;
+	//Header->TxEventFifoControl
+	//Header->MessageMarker = 0;
+	Header->IdType = FDCAN_STANDARD_ID;
+}
+
+void FDCAN_SendFrame(){
+	FDCAN_TxHeaderTypeDef   TxHeader;
+	uint8_t               TxData[64];
+
+	if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData)!= HAL_OK)
+	 {
+	  Error_Handler();
+	 }
+}
 /* USER CODE END 1 */
