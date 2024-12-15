@@ -314,16 +314,16 @@ static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
   uint32_t id;
   uint32_t dlc;
   decomponi(Buf, &id, &dlc, TxData);
-  if(dummy_mode){
-	  dummyCOM(&id);
-	  // break; //only dummy mode
-  }
+//  if(dummy_mode){
+//	  dummyCOM(&id);
+//	  // break; //only dummy mode
+//  }
   TxHeader.Identifier = id;
   TxHeader.DataLength = dlc;
   TxHeader.TxFrameType = FDCAN_DATA_FRAME;
   TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
   TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
-  TxHeader.FDFormat = FDCAN_FD_CAN;
+  TxHeader.FDFormat = FDCAN_CLASSIC_CAN;
   //TxHeader.TxEventFifoControl
   //TxHeader.MessageMarker = 0;
   TxHeader.IdType = FDCAN_STANDARD_ID;

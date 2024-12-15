@@ -19,9 +19,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "fdcan.h"
-#include "candb.h"
-/* USER CODE BEGIN 0 */
 
+/* USER CODE BEGIN 0 */
+extern uint8_t ongoingPreCharge ;
+extern uint32_t StartPreChargeTime ;
 /* USER CODE END 0 */
 
 FDCAN_HandleTypeDef hfdcan1;
@@ -44,14 +45,14 @@ void MX_FDCAN1_Init(void)
   hfdcan1.Init.AutoRetransmission = DISABLE;
   hfdcan1.Init.TransmitPause = DISABLE;
   hfdcan1.Init.ProtocolException = DISABLE;
-  hfdcan1.Init.NominalPrescaler = 16;
-  hfdcan1.Init.NominalSyncJumpWidth = 1;
-  hfdcan1.Init.NominalTimeSeg1 = 1;
-  hfdcan1.Init.NominalTimeSeg2 = 1;
+  hfdcan1.Init.NominalPrescaler = 8;
+  hfdcan1.Init.NominalSyncJumpWidth = 64;
+  hfdcan1.Init.NominalTimeSeg1 = 12;
+  hfdcan1.Init.NominalTimeSeg2 = 7;
   hfdcan1.Init.DataPrescaler = 1;
-  hfdcan1.Init.DataSyncJumpWidth = 1;
-  hfdcan1.Init.DataTimeSeg1 = 1;
-  hfdcan1.Init.DataTimeSeg2 = 1;
+  hfdcan1.Init.DataSyncJumpWidth = 8;
+  hfdcan1.Init.DataTimeSeg1 = 16;
+  hfdcan1.Init.DataTimeSeg2 = 8;
   hfdcan1.Init.StdFiltersNbr = 0;
   hfdcan1.Init.ExtFiltersNbr = 0;
   hfdcan1.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
@@ -100,6 +101,11 @@ void HAL_FDCAN_MspInit(FDCAN_HandleTypeDef* fdcanHandle)
     GPIO_InitStruct.Alternate = GPIO_AF9_FDCAN1;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+    /* FDCAN1 interrupt Init */
+    HAL_NVIC_SetPriority(FDCAN1_IT0_IRQn, 13, 0);
+    HAL_NVIC_EnableIRQ(FDCAN1_IT0_IRQn);
+    HAL_NVIC_SetPriority(FDCAN1_IT1_IRQn, 14, 0);
+    HAL_NVIC_EnableIRQ(FDCAN1_IT1_IRQn);
   /* USER CODE BEGIN FDCAN1_MspInit 1 */
 
   /* USER CODE END FDCAN1_MspInit 1 */
@@ -123,6 +129,9 @@ void HAL_FDCAN_MspDeInit(FDCAN_HandleTypeDef* fdcanHandle)
     */
     HAL_GPIO_DeInit(GPIOB, GPIO_PIN_8|GPIO_PIN_9);
 
+    /* FDCAN1 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(FDCAN1_IT0_IRQn);
+    HAL_NVIC_DisableIRQ(FDCAN1_IT1_IRQn);
   /* USER CODE BEGIN FDCAN1_MspDeInit 1 */
 
   /* USER CODE END FDCAN1_MspDeInit 1 */
@@ -144,10 +153,13 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 			/* Reception Error */
 			Error_Handler();
 		}
-		uint32_t id;
+		uint32_t id, dlc;
 		id = RxHeader.Identifier;
+		dlc = RxHeader.DataLength;
 		switch(id) {
 			case 0x000002AA:
+				ongoingPreCharge = 1;
+				StartPreChargeTime = millis;
 				break;
 			case 0x000003AA:
 				break;
@@ -158,6 +170,9 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 		  /* Notification Error */
 		  Error_Handler();
 		}
+//		FDCAN_TxHeaderTypeDef* Header;
+//		FDCAN_CreateHeader(&id, &dlc, Header);
+//		FDCAN_SendFrame(Header, RxData);
 	  }
 }
 
@@ -168,17 +183,14 @@ void FDCAN_CreateHeader(uint32_t* id, uint32_t* dlc, FDCAN_TxHeaderTypeDef* Head
 	Header->TxFrameType = FDCAN_DATA_FRAME;
 	Header->ErrorStateIndicator = FDCAN_ESI_ACTIVE;
 	Header->BitRateSwitch = FDCAN_BRS_OFF;
-	Header->FDFormat = FDCAN_FD_CAN;
+	Header->FDFormat = FDCAN_CLASSIC_CAN;
 	//Header->TxEventFifoControl
 	//Header->MessageMarker = 0;
 	Header->IdType = FDCAN_STANDARD_ID;
 }
 
-void FDCAN_SendFrame(){
-	FDCAN_TxHeaderTypeDef   TxHeader;
-	uint8_t               TxData[64];
-
-	if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, TxData)!= HAL_OK)
+void FDCAN_SendFrame(FDCAN_TxHeaderTypeDef* Header, uint8_t* TxData){
+	if (HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, Header, TxData)!= HAL_OK)
 	 {
 	  Error_Handler();
 	 }

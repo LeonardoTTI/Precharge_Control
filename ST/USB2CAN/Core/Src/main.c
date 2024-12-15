@@ -20,7 +20,6 @@
 #include "main.h"
 #include "fdcan.h"
 #include "usb_device.h"
-#include "usbd_cdc_if.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -40,7 +39,7 @@ FDCAN_RxHeaderTypeDef RxHeader;
 uint8_t TxData[64];
 uint8_t RxData[64];
 uint8_t output[69];
-uint8_t dummy_mode = 1; //dummy mode on;
+uint8_t dummy_mode = 0; //dummy mode on;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -96,21 +95,33 @@ int main(void)
   MX_FDCAN1_Init();
   MX_USB_Device_Init();
   /* USER CODE BEGIN 2 */
+
+  /*
+   * @brief can transciver on
+   */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_7, 0);
+
   if(HAL_FDCAN_Start(&hfdcan1) != HAL_OK){
 	  Error_Handler();
   }
   if(HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK){
   	  Error_Handler();
-    }
-  //TxHeader.Identifier = 0x11;
-  TxHeader.IdType = FDCAN_STANDARD_ID;
-  TxHeader.TxFrameType = FDCAN_DATA_FRAME;
-  TxHeader.DataLength = FDCAN_DLC_BYTES_64;
-  TxHeader.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
-  TxHeader.BitRateSwitch = FDCAN_BRS_OFF;
-  TxHeader.FDFormat = FDCAN_FD_CAN;
-  TxHeader.TxEventFifoControl = FDCAN_NO_TX_EVENTS;
-  TxHeader.MessageMarker = 0;
+  }
+
+  /*
+   * @brief Configure the RX message filter mask for FDCAN1
+   *
+   * */
+  	FDCAN_FilterTypeDef sFilterConfig;
+
+  	sFilterConfig.IdType = FDCAN_STANDARD_ID;
+  	sFilterConfig.FilterIndex = 0;
+  	sFilterConfig.FilterType = FDCAN_FILTER_MASK;
+  	sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+  	sFilterConfig.FilterID1 = 0x200;
+  	sFilterConfig.FilterID2 = 0x210;
+  	HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -118,6 +129,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -134,7 +146,7 @@ void SystemClock_Config(void)
 
   /** Configure the main internal regulator output voltage
   */
-  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1);
+  HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1_BOOST);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -143,7 +155,13 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV1;
+  RCC_OscInitStruct.PLL.PLLN = 20;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -153,12 +171,12 @@ void SystemClock_Config(void)
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
     Error_Handler();
   }

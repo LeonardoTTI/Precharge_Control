@@ -120,6 +120,10 @@ void StartPreCharge();
 #define toggleData(data)   			((data) =~(data))         	/* Toggle Data value     */
 /* BIT OPERATION FUNCTIONS END */
 
+//#define ADC_VCC 3.291f
+//#define CH1_SHUNT_VALUE
+//#define CH1_INA_GAIN
+//#define CH1_IOUT_GAIN				((float)(1.00)  	* (ADC_VCC/4096) / (CH1_SHUNT_VALUE  * CH1_INA_GAIN))
 
 /* USER CODE END Private defines */
 

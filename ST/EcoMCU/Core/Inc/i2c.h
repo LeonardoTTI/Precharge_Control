@@ -37,10 +37,9 @@ extern I2C_HandleTypeDef hi2c1;
 /* USER CODE BEGIN Private defines */
 #define EEPROM_AV_TRIALS 1
 #define EEPROM_AV_TIMEOUT 10
-#define EEPROM_TIMEOUT 10
+#define EEPROM_TIMEOUT 200
 
-#define EEPROM_TEST_ADDR 0x0
-#define EEPROM_ADDR_SIZE 16
+#define EEPROM_TEST_ADDR 0x00000000
 #define EEPROM_PAGE_SIZE 32
 
 

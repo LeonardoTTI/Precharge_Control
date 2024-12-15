@@ -106,7 +106,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* i2cHandle)
     __HAL_RCC_I2C1_CLK_ENABLE();
 
     /* I2C1 interrupt Init */
-    HAL_NVIC_SetPriority(I2C1_EV_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(I2C1_EV_IRQn, 1, 0);
     HAL_NVIC_EnableIRQ(I2C1_EV_IRQn);
   /* USER CODE BEGIN I2C1_MspInit 1 */
 
@@ -142,53 +142,69 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
 }
 
 /* USER CODE BEGIN 1 */
+HAL_StatusTypeDef testRes[8];
 HAL_StatusTypeDef test_EEPROM(){
-	HAL_StatusTypeDef testRes[8];
-	uint8_t sentByte = (0xFF);// && HAL_GetTick();
+
+	uint8_t sentByte = (0x66);// && HAL_GetTick();
 	uint8_t recivedByte;
 	uint8_t sentPage[EEPROM_PAGE_SIZE];
+	uint8_t blankSpace[EEPROM_PAGE_SIZE];
 	uint8_t recivedPage[EEPROM_PAGE_SIZE];
 
 	for( uint8_t i = 0; i < EEPROM_PAGE_SIZE; i++){
-		sentPage[i] = (0xFF) && HAL_GetTick();
+		sentPage[i] = (0x55);
 	}
-
+	for( uint8_t i = 0; i < EEPROM_PAGE_SIZE; i++){
+		blankSpace[i] = (0x00);
+	}
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, 0);
 	//Check if the EEPROM is ready to communicate
 	testRes[0] = HAL_I2C_IsDeviceReady(&hi2c1, EEPROM_WRITE, EEPROM_AV_TRIALS, EEPROM_AV_TIMEOUT);
 
 	//Check if the HAL Write for a single byte is working
-	testRes[1] = HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, EEPROM_ADDR_SIZE, &sentByte, 1, EEPROM_TIMEOUT);
+	testRes[1] = HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, &sentByte, 1, EEPROM_TIMEOUT);
 
 	//Check if the HAL Read for a single byte is working
-	testRes[2] = HAL_I2C_Mem_Read(&hi2c1, EEPROM_READ, EEPROM_TEST_ADDR, EEPROM_ADDR_SIZE, &recivedByte, 1, EEPROM_TIMEOUT);
+	testRes[2] = HAL_I2C_Mem_Read(&hi2c1, EEPROM_READ, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, &recivedByte, 1, EEPROM_TIMEOUT);
 
 	//Check if the sentByte is equal as the recivedByte
 	if( sentByte == recivedByte ){testRes[3] = HAL_OK;} else {testRes[3] = HAL_ERROR;}
 
 	//Check if the HAL Write for a page is working
-	testRes[4] = HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, EEPROM_ADDR_SIZE, sentPage, EEPROM_PAGE_SIZE, EEPROM_TIMEOUT);
+	//testRes[4] = HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, sentPage, EEPROM_PAGE_SIZE, EEPROM_TIMEOUT);
 
 	//Check if the HAL Read for a page is working
-	testRes[5] = HAL_I2C_Mem_Read(&hi2c1, EEPROM_READ, EEPROM_TEST_ADDR, EEPROM_ADDR_SIZE, recivedPage, EEPROM_PAGE_SIZE, EEPROM_TIMEOUT);
+	//testRes[5] = HAL_I2C_Mem_Read(&hi2c1, EEPROM_READ, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, recivedPage, EEPROM_PAGE_SIZE, EEPROM_TIMEOUT);
+
+	//wipe byte 0
+	HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, 0x00, 1, EEPROM_TIMEOUT);
+	// wipe first page
+	//HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, blankSpace, EEPROM_PAGE_SIZE, EEPROM_TIMEOUT);
+
 	return testRes[3];
 }
-void EEPROM_Write_PreCharge(uint8_t *pData, uint16_t Size){
-	HAL_I2C_Mem_Read(&hi2c1, EEPROM_WRITE, EEPROM_VOLTAGE_ADDR, 16, pData, sizeof(ErrorPayload), 10);
+
+void EEPROM_Write_PreCharge(uint8_t *pData, uint16_t size){
+	HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, pData, size, EEPROM_TIMEOUT);
 
 }
-void EEPROM_Write_ErrorTemperature(uint8_t *pData, uint16_t Size){
-	//HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEMPERATURE_ADDR, MemAddSize, pData, Size, 10);
+
+void EEPROM_Write_ErrorTemperature(uint8_t *pData, uint16_t size){
+	HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, pData, size, EEPROM_TIMEOUT);
 }
-void EEPROM_Write_ErrorVoltage(uint8_t *pData, uint16_t Size){
-	//HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, MemAddress, MemAddSize, pData, Size, 10);
+
+void EEPROM_Write_ErrorVoltage(uint8_t *pData, uint16_t size){
+	HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, pData, size, EEPROM_TIMEOUT);
 
 }
-void EEPROM_Write_ErrorSoftware(uint8_t *pData, uint16_t Size){
-	//HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, MemAddress, MemAddSize, pData, Size, 10);
+
+void EEPROM_Write_ErrorSoftware(uint8_t *pData, uint16_t size){
+	HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, pData, size, EEPROM_TIMEOUT);
 
 }
-void EEPROM_Write_ErrorPreCharge(uint8_t *pData, uint16_t Size){
-	//HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, MemAddress, MemAddSize, pData, Size, 10);
+
+void EEPROM_Write_ErrorPreCharge(uint8_t *pData, uint16_t size){
+	HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, pData, size, EEPROM_TIMEOUT);
 
 }
 /* USER CODE END 1 */

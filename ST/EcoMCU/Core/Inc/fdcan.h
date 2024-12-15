@@ -38,7 +38,7 @@ extern FDCAN_HandleTypeDef hfdcan1;
 
 void FDCAN_CreateHeader(uint32_t* id, uint32_t* dlc, FDCAN_TxHeaderTypeDef* Header);
 
-void FDCAN_SendFrame();
+void FDCAN_SendFrame(FDCAN_TxHeaderTypeDef* Header, uint8_t* TxData);
 
 /* USER CODE END Private defines */
 
