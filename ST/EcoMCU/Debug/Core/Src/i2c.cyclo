@@ -1,9 +1,10 @@
 ../Core/Src/i2c.c:30:6:MX_I2C1_Init	4
 ../Core/Src/i2c.c:73:6:HAL_I2C_MspInit	3
 ../Core/Src/i2c.c:117:6:HAL_I2C_MspDeInit	2
-../Core/Src/i2c.c:146:19:test_EEPROM	4
+../Core/Src/i2c.c:146:19:test_EEPROM	2
 ../Core/Src/i2c.c:187:6:EEPROM_Write_PreCharge	1
 ../Core/Src/i2c.c:192:6:EEPROM_Write_ErrorTemperature	1
 ../Core/Src/i2c.c:196:6:EEPROM_Write_ErrorVoltage	1
-../Core/Src/i2c.c:201:6:EEPROM_Write_ErrorSoftware	1
-../Core/Src/i2c.c:206:6:EEPROM_Write_ErrorPreCharge	1
+../Core/Src/i2c.c:201:6:EEPROM_Write_ErrorCurrent	1
+../Core/Src/i2c.c:206:6:EEPROM_Write_ErrorSoftware	1
+../Core/Src/i2c.c:211:6:EEPROM_Write_ErrorPreCharge	1

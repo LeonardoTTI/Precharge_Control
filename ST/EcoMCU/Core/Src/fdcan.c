@@ -21,8 +21,10 @@
 #include "fdcan.h"
 
 /* USER CODE BEGIN 0 */
-extern uint8_t ongoingPreCharge ;
-extern uint32_t StartPreChargeTime ;
+extern uint8_t ongoingPreCharge;
+extern uint32_t StartPreChargeTime;
+extern StateMachine previousState;
+extern StateMachine currentState;
 /* USER CODE END 0 */
 
 FDCAN_HandleTypeDef hfdcan1;
@@ -158,8 +160,10 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 		dlc = RxHeader.DataLength;
 		switch(id) {
 			case 0x000002AA:
-				ongoingPreCharge = 1;
-				StartPreChargeTime = millis;
+				if(currentState == Contactor_Open){
+					currentState = PreCharge;
+					StartPreChargeTime = millis;
+				}
 				break;
 			case 0x000003AA:
 				break;

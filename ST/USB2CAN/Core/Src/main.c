@@ -21,6 +21,7 @@
 #include "fdcan.h"
 #include "usb_device.h"
 #include "gpio.h"
+#include "usbd_cdc_if.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -39,7 +40,11 @@ FDCAN_RxHeaderTypeDef RxHeader;
 uint8_t TxData[64];
 uint8_t RxData[64];
 uint8_t output[69];
+uint8_t msg[69];
 uint8_t dummy_mode = 0; //dummy mode on;
+uint32_t id;
+uint32_t dlc;
+uint8_t CANFD_Rx_Cpl;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -129,7 +134,59 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  if(CANFD_Rx_Cpl == 1){
+		  	CANFD_Rx_Cpl = 0;
+			id = RxHeader.Identifier;
+			dlc = RxHeader.DataLength;
+			switch (dlc){
+			case FDCAN_DLC_BYTES_0:
+				break;
+			case FDCAN_DLC_BYTES_1:
+				break;
+			case FDCAN_DLC_BYTES_2:
+				break;
+			case FDCAN_DLC_BYTES_3:
+				break;
+			case FDCAN_DLC_BYTES_4:
+				break;
+			case FDCAN_DLC_BYTES_5:
+				break;
+			case FDCAN_DLC_BYTES_6:
+				break;
+			case FDCAN_DLC_BYTES_7:
+				break;
+			case FDCAN_DLC_BYTES_8:
+				break;
+			case FDCAN_DLC_BYTES_12:
+				dlc = 0xC;
+				break;
+			case FDCAN_DLC_BYTES_16:
+				dlc = 0x10;
+				break;
+			case FDCAN_DLC_BYTES_20:
+				dlc = 0x14;
+				break;
+			case FDCAN_DLC_BYTES_24:
+				dlc = 0x18;
+				break;
+			case FDCAN_DLC_BYTES_32:
+				dlc = 0x20;
+				break;
+			case FDCAN_DLC_BYTES_48:
+				dlc = 0x30;
+				break;
+			case FDCAN_DLC_BYTES_64:
+				dlc = 0x40;
+				break;
+			default:
+				dlc = 0x40;
+				break;
+			}
+			concatena(id, dlc, RxData, msg);
+			if ( CDC_Transmit_FS(msg, 5+dlc) != USBD_OK ){
+				Error_Handler();
+			}
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

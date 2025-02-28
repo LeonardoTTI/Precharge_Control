@@ -1,12 +1,17 @@
-18:06:18 **** Incremental Build of configuration Debug for project EcoMCU ****
+00:27:58 **** Incremental Build of configuration Debug for project EcoMCU ****
 make -j4 all 
+arm-none-eabi-gcc "../Core/Src/fdcan.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/fdcan.d" -MT"Core/Src/fdcan.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/fdcan.o"
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m33 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32U535xx -c -I../Core/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc -I../Drivers/STM32U5xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32U5xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/fdcan.c: In function 'HAL_FDCAN_RxFifo0Callback':
+../Core/Src/fdcan.c:158:30: warning: variable 'dlc' set but not used [-Wunused-but-set-variable]
+  158 |                 uint32_t id, dlc;
+      |                              ^~~
 ../Core/Src/main.c: In function 'main':
-../Core/Src/main.c:214:17: warning: unused variable 'countPreCharge' [-Wunused-variable]
-  214 |         uint8_t countPreCharge = 0;
+../Core/Src/main.c:217:17: warning: unused variable 'countPreCharge' [-Wunused-variable]
+  217 |         uint8_t countPreCharge = 0;
       |                 ^~~~~~~~~~~~~~
-../Core/Src/main.c:212:17: warning: unused variable 'txData' [-Wunused-variable]
-  212 |         uint8_t txData = 0x55;
+../Core/Src/main.c:215:17: warning: unused variable 'txData' [-Wunused-variable]
+  215 |         uint8_t txData = 0x55;
       |                 ^~~~~~
 arm-none-eabi-gcc -o "EcoMCU.elf" @"objects.list"   -mcpu=cortex-m33 -T"C:\Users\leona\Documents\UBM\GitLab\Precharge_Control\ST\EcoMCU\STM32U535CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EcoMCU.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: EcoMCU.elf
@@ -14,11 +19,11 @@ Finished building target: EcoMCU.elf
 arm-none-eabi-size  EcoMCU.elf 
 arm-none-eabi-objdump -h -S EcoMCU.elf  > "EcoMCU.list"
    text	   data	    bss	    dec	    hex	filename
-  42496	      9	   2460	  44965	   afa5	EcoMCU.elf
+  42672	      9	   2460	  45141	   b055	EcoMCU.elf
 Finished building: default.size.stdout
  
 Finished building: EcoMCU.list
  
 
-18:06:21 Build Finished. 0 errors, 2 warnings. (took 2s.979ms)
+00:28:01 Build Finished. 0 errors, 3 warnings. (took 3s.282ms)
 

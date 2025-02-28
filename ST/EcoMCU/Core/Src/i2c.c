@@ -145,18 +145,18 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
 HAL_StatusTypeDef testRes[8];
 HAL_StatusTypeDef test_EEPROM(){
 
-	uint8_t sentByte = (0x66);// && HAL_GetTick();
+	uint8_t sentByte = (0x66);
 	uint8_t recivedByte;
-	uint8_t sentPage[EEPROM_PAGE_SIZE];
-	uint8_t blankSpace[EEPROM_PAGE_SIZE];
-	uint8_t recivedPage[EEPROM_PAGE_SIZE];
-
-	for( uint8_t i = 0; i < EEPROM_PAGE_SIZE; i++){
-		sentPage[i] = (0x55);
-	}
-	for( uint8_t i = 0; i < EEPROM_PAGE_SIZE; i++){
-		blankSpace[i] = (0x00);
-	}
+//	uint8_t sentPage[EEPROM_PAGE_SIZE];
+//	uint8_t blankSpace[EEPROM_PAGE_SIZE];
+//	uint8_t recivedPage[EEPROM_PAGE_SIZE];
+//
+//	for( uint8_t i = 0; i < EEPROM_PAGE_SIZE; i++){
+//		sentPage[i] = (0x55);
+//	}
+//	for( uint8_t i = 0; i < EEPROM_PAGE_SIZE; i++){
+//		blankSpace[i] = (0x00);
+//	}
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_3, 0);
 	//Check if the EEPROM is ready to communicate
 	testRes[0] = HAL_I2C_IsDeviceReady(&hi2c1, EEPROM_WRITE, EEPROM_AV_TRIALS, EEPROM_AV_TIMEOUT);
@@ -194,6 +194,11 @@ void EEPROM_Write_ErrorTemperature(uint8_t *pData, uint16_t size){
 }
 
 void EEPROM_Write_ErrorVoltage(uint8_t *pData, uint16_t size){
+	HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, pData, size, EEPROM_TIMEOUT);
+
+}
+
+void EEPROM_Write_ErrorCurrent(uint8_t *pData, uint16_t size){
 	HAL_I2C_Mem_Write(&hi2c1, EEPROM_WRITE, EEPROM_TEST_ADDR, I2C_MEMADD_SIZE_16BIT, pData, size, EEPROM_TIMEOUT);
 
 }

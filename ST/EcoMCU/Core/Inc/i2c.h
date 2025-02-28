@@ -63,11 +63,20 @@ typedef enum {
 	PRECHARGE,
 } Error_t;
 
+
+/*
+ * @brief Error Payload to write on the EEPROM
+ */
 typedef struct ErrorPayload {
-	time_t timestamp;
-	Error_t error_type;
-	uint16_t value;
+	uint32_t timestamp; // 32bit
+	uint16_t value;		// 16 bit
+	Error_t error_type;	// 8 bit
+	// C struct padding    8 bit
 } ErrorPayload;
+
+
+
+
 /* USER CODE END Private defines */
 
 void MX_I2C1_Init(void);
@@ -82,6 +91,7 @@ void EEPROM_Write_ErrorPreCharge(uint8_t *pData, uint16_t Size);
 void EEPROM_Write_PreCharge(uint8_t *pData, uint16_t Size);
 void EEPROM_Read_ErrorTemperature(uint8_t *pData, uint16_t Size);
 void EEPROM_Read_ErrorVoltage(uint8_t *pData, uint16_t Size);
+void EEPROM_Write_ErrorCurrent(uint8_t *pData, uint16_t size);
 void EEPROM_Read_ErrorSoftware(uint8_t *pData, uint16_t Size);
 void EEPROM_Read_ErrorPreCharge(uint8_t *pData, uint16_t Size);
 /* USER CODE END Prototypes */

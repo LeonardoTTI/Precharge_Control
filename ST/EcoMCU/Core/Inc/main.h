@@ -57,6 +57,21 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+
+typedef enum {
+	Contactor_Open,
+	PreCharge,
+	PreChargeDone,
+	Contactor_Close,
+	Send_T,
+	Error_SW,
+	Error_T,
+	Error_V,
+	Error_C,
+	Error_P,
+	Test
+} StateMachine;
+
 #define USER_LED_Pin GPIO_PIN_13
 #define USER_LED_GPIO_Port GPIOC
 #define RY_A_S0_Pin GPIO_PIN_1

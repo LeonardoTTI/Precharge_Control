@@ -80,6 +80,9 @@ uint8_t               TxData[64];
 uint8_t ongoingPreCharge = 0;
 uint32_t StartPreChargeTime;
 
+StateMachine previousState = Contactor_Open;
+StateMachine currentState = Contactor_Open;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -224,24 +227,89 @@ int main(void)
 
 	  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwmDcTest);
 
-	  if (ongoingPreCharge == 1){
-		  StartPreCharge();
-	  }
-		if(ongoingPreCharge == 1){
-			if(millis - StartPreChargeTime > 2000){
-				ongoingPreCharge = 0;
-				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
-				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 0);
-				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
-				__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 0);
-			}
-		}
-
+	  /*
+	   * @brief the led toggle is used to now if the board is still running or an error has raised.
+	   */
 	  if(HAL_GetTick() >= millisLedBlink + 1000)
 	  {
 		  millisLedBlink = HAL_GetTick();
 		  HAL_GPIO_TogglePin(USER_LED_GPIO_Port, USER_LED_Pin);
 	  }
+
+	  switch(currentState){
+
+		  case Contactor_Open:
+			  break;
+
+		  case PreCharge:
+			  previousState = currentState;
+			  if (ongoingPreCharge == 0){
+				  StartPreCharge();
+			  }
+			  if(ongoingPreCharge == 1){
+			 		if(millis - StartPreChargeTime > 2000){
+			 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 0);
+			  			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, 0);
+			  			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, 0);
+			  			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 0);
+			  			ongoingPreCharge = 0;
+			  			currentState = PreChargeDone;
+			  		}
+			  }
+			  break;
+
+		  case PreChargeDone:
+			  // Send Data
+			  currentState = Contactor_Close;
+			  previousState = PreChargeDone;
+			  break;
+
+		  case Contactor_Close:
+			  previousState = currentState;
+			  //EEPROM_Write_PreCharge(uint8_t *pData, uint16_t size);
+			  break;
+
+		  case Send_T:
+			  //send temp to 0x0000030AA
+			  currentState = previousState;
+			  previousState = Send_T;
+			  break;
+
+		  case Error_SW:
+			  previousState = currentState;
+			  //EEPROM_Write_ErrorSoftware(uint8_t *pData, uint16_t size);
+			  NVIC_SystemReset();
+			  break;
+
+		  case Error_T:
+			  previousState = currentState;
+			  //EEPROM_Write_ErrorTemperature(uint8_t *pData, uint16_t size);
+			  break;
+
+		  case Error_V:
+			  previousState = currentState;
+			  //EEPROM_Write_ErrorVoltage(uint8_t *pData, uint16_t size);
+			  break;
+
+		  case Error_C:
+			  previousState = currentState;
+			  //EEPROM_Write_ErrorCurrent(uint8_t *pData, uint16_t size);
+			  break;
+
+		  case Error_P:
+			  previousState = currentState;
+			  //EEPROM_Write_ErrorPreCharge(uint8_t *pData, uint16_t size);
+			  break;
+
+		  case Test:
+			  break;
+
+		  default:
+			  previousState = currentState;
+			  currentState = Error_SW;
+	  }
+
+
   }
   /* USER CODE END 3 */
 }
@@ -433,12 +501,13 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 uint8_t economizerOver = 0;
 
 void StartPreCharge(){
-	  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 100);
-	  HAL_Delay(5);
-	  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 100);
-	  HAL_Delay(100);
-	  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 40);
-	  economizerOver = 1;
+	ongoingPreCharge = 1;
+	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_4, 100);
+	HAL_Delay(5);
+	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 100);
+	HAL_Delay(100);
+	__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 40);
+	economizerOver = 1;
 }
 
 

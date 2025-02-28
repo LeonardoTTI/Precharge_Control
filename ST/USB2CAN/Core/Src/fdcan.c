@@ -27,6 +27,8 @@ extern FDCAN_TxHeaderTypeDef   TxHeader;
 extern FDCAN_RxHeaderTypeDef   RxHeader;
 extern uint8_t               TxData[64];
 extern uint8_t               RxData[64];
+extern uint8_t msg[69];
+extern uint8_t CANFD_Rx_Cpl;
 /* USER CODE END 0 */
 
 FDCAN_HandleTypeDef hfdcan1;
@@ -176,7 +178,6 @@ void concatena(uint32_t id, uint32_t dlc, uint8_t data[64], uint8_t *output) {
 }
 
 
-uint32_t canRxCounter = 0;
 /**
   * @brief  This function is called when data arrive in FIFO0 from FDCAN.
   * @retval None.
@@ -186,7 +187,6 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 	/* if data arrived from FDCAN2 */
 	if(hfdcan->Instance == FDCAN1)
 	{
-		canRxCounter++;
 	  if((RxFifo0ITs & FDCAN_IT_RX_FIFO0_NEW_MESSAGE) != RESET)
 	  {
 		/* Retreive Rx messages from RX FIFO0 */
@@ -195,15 +195,7 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 			/* Reception Error */
 			Error_Handler();
 		}
-		uint32_t id;
-		uint32_t dlc;
-		uint8_t msg[69];
-		id = RxHeader.Identifier;
-		dlc = RxHeader.DataLength;
-		concatena(id, dlc, RxData, msg);
-		if ( CDC_Transmit_FS(msg, 5+dlc) != USBD_OK ){
-			Error_Handler();
-		}
+		CANFD_Rx_Cpl = 1;
 		if (HAL_FDCAN_ActivateNotification(hfdcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
 		{
 		  /* Notification Error */
