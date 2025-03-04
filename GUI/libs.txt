@@ -1,4 +1,0 @@
-pip install pyserial
-pip install ttkbootstrap
-pip install matplotlib
-
